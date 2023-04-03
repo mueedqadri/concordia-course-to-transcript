@@ -1,0 +1,4 @@
+NEED TO GENERATE MARKDOWN RESPONSE AS MENTIONED 
+"IMPORTANT: I used this code to generate transcripts, Now I need to need make markdown notes from those transcripts. In the upcoming prompts I will provide you with the transcripts for each part, Make structured markdown notes from it, generate necessary information, Any extra information that you put make sure sure to label it, Also generate the headings and sub headings , No need to add sound number. Also make sure to add labels for lessons and Parts. Do you understand?"
+
+here is lesson 12 part 4. PLEASE DO AS INSTRUCTED ABOVE
