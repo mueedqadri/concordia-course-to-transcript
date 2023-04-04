@@ -1,7 +1,7 @@
 {
-  "name": "express-js-boilerplate",
+  "name": "concordia-course-to-transcript",
   "version": "1.0.0",
-  "description": "Get started quickly with Express.",
+  "description": "This project aims to download, sort, and transcribe course content (audio and video files) from the Concordia University's Renewable Energy course. The course content is downloaded from the eConcordia website, sorted into appropriate directories, and transcribed using Google Cloud Speech-to-Text API.",
   "sourceType": "module",
   "main": "src/index.js",
   "scripts": {
@@ -10,18 +10,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yottaawesome/express-js-boilerplate.git"
+    "url": "git+https://github.com/mueedqadri/concordia-course-to-transcript.git"
   },
   "keywords": [
     "node",
     "express"
   ],
-  "author": "Vasilios Magriplis",
+  "author": "Mueed Qadri",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yottaawesome/express-js-boilerplate/issues"
+    "url": "https://github.com/mueedqadri/concordia-course-to-transcript/issues"
   },
-  "homepage": "https://github.com/yottaawesome/express-js-boilerplate#readme",
+  "homepage": "https://github.com/mueedqadri/concordia-course-to-transcript",
   "devDependencies": {
     "@babel/core": "^7.21.4",
     "@babel/node": "^7.20.7",

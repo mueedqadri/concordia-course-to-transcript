@@ -13,6 +13,6 @@ const {
 });
 
 // Uncomment the desired function to execute
-// downloadLessonContent();
+downloadLessonContent();
 // sortMedia();
-generateTranscriptsForSortedFiles();
+// generateTranscriptsForSortedFiles();

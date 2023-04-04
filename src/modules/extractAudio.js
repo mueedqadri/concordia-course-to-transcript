@@ -1,3 +1,5 @@
+const ffmpeg = require("fluent-ffmpeg");
+
 function extractAudioFromVideo(videoPath, outputPath) {
   return new Promise((resolve, reject) => {
     ffmpeg(videoPath)

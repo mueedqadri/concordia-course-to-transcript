@@ -11,6 +11,17 @@ const {
   sound,
   video,
 } = require("../config");
+const ffmpeg = require("fluent-ffmpeg");
+
+async function convertVideoToAudio(videoPath, audioPath) {
+  return new Promise((resolve, reject) => {
+    ffmpeg(videoPath)
+      .noVideo()
+      .save(audioPath)
+      .on("end", resolve)
+      .on("error", reject);
+  });
+}
 
 async function downloadFile(url, outputPath) {
   try {
@@ -37,23 +48,45 @@ async function downloadLessonContent() {
       for (const type of [sound, video]) {
         let soundNumber = 1;
         let url = `${BASE_URL}/lesson${lessonNumber}/content/ispring/${lessonNumber}_${partNumber}/data/${type.type}${soundNumber}.${type.ext}`;
-        let outputPath = path.join(
+
+        const lessonPath = path.join(
           __dirname,
           "..",
           "downloads",
-          `${lessonNumber}_${partNumber}_${type.type}${soundNumber}.${type.ext}`
+          `lesson${lessonNumber}`
+        );
+        const partPath = path.join(lessonPath, `part${partNumber}`);
+        const mediaPath = path.join(partPath, type.type);
+
+        for (const dir of [lessonPath, partPath, mediaPath]) {
+          if (!fs.existsSync(dir)) {
+            fs.mkdirSync(dir);
+          }
+        }
+
+        let outputPath = path.join(
+          mediaPath,
+          `${type.type}${soundNumber}.${type.ext}`
         );
 
         await downloadFile(url, outputPath);
 
         while (fs.existsSync(outputPath)) {
+          if (type.ext === "mp4") {
+            const audioOutputPath = path.join(
+              mediaPath,
+              `${type.type}${soundNumber}.mp3`
+            );
+            await convertVideoToAudio(outputPath, audioOutputPath);
+            fs.unlinkSync(outputPath); // Remove the video file
+            outputPath = audioOutputPath;
+          }
+
           soundNumber++;
           url = `${BASE_URL}/lesson${lessonNumber}/content/ispring/${lessonNumber}_${partNumber}/data/${type.type}${soundNumber}.${type.ext}`;
           outputPath = path.join(
-            __dirname,
-            "..",
-            "downloads",
-            `${lessonNumber}_${partNumber}_${type.type}${soundNumber}.${type.ext}`
+            mediaPath,
+            `${type.type}${soundNumber}.${type.ext}`
           );
           await downloadFile(url, outputPath);
         }

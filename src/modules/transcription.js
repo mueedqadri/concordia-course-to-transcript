@@ -56,28 +56,32 @@ async function generateTranscriptsForSortedFiles() {
       const lessonPath = path.join(
         __dirname,
         "..",
-        "sorted",
+        "downloads",
         `lesson${lessonNumber}`
       );
       let lessonTranscript = "";
 
       for (let partNumber = 1; partNumber <= MAX_PARTS; partNumber++) {
-        const partPath = path.join(lessonPath, `part${partNumber}`);
-        const soundPath = path.join(partPath, "sound");
+        for (const type of [sound, video]) {
+          const mediaPath = path.join(
+            lessonPath,
+            `part${partNumber}`,
+            type.type
+          );
 
-        if (fs.existsSync(soundPath)) {
-          const soundFiles = fs
-            .readdirSync(soundPath)
-            .filter((file) => file.endsWith(".mp3"));
+          if (fs.existsSync(mediaPath)) {
+            const mediaFiles = fs
+              .readdirSync(mediaPath)
+              .filter((file) => file.endsWith(".mp3"));
 
-          for (const soundFile of soundFiles) {
-            const inputPath = path.join(soundPath, soundFile);
-            const transcript = await transcribeAudioFile(inputPath);
+            for (const mediaFile of mediaFiles) {
+              const inputPath = path.join(mediaPath, mediaFile);
+              const transcript = await transcribeAudioFile(inputPath);
 
-            lessonTranscript += `Part ${partNumber}, Sound ${path.basename(
-              soundFile,
-              ".mp3"
-            )}:\n${transcript}\n\n`;
+              lessonTranscript += `Part ${partNumber}, ${
+                type.type
+              } ${path.basename(mediaFile, ".mp3")}:\n${transcript}\n\n`;
+            }
           }
         }
       }
