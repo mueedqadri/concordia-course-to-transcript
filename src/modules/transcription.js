@@ -1,14 +1,28 @@
 const fs = require("fs");
 const path = require("path");
 const speech = require("@google-cloud/speech");
-const speechClient = new speech.SpeechClient();
+
+const keyfilePath =
+  "/home/mueedq/concordia-course-to-transcript/src/key/dev-setting-382518-8c2f4b29788c.json";
+const keyfileContent = fs.readFileSync(keyfilePath, "utf8");
+const gcpCredentials = JSON.parse(keyfileContent);
+
+const speechClient = new speech.SpeechClient({
+  credentials: gcpCredentials,
+});
+
 const { Storage } = require("@google-cloud/storage");
-const storage = new Storage();
+const storage = new Storage({
+  credentials: gcpCredentials,
+});
+
 const {
   BUCKET_NAME,
   START_LESSON,
   MAX_LESSONS,
   MAX_PARTS,
+  sound,
+  video,
 } = require("../config");
 
 async function transcribeAudioFile(filePath) {
